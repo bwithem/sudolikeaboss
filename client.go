@@ -52,9 +52,13 @@ func retrievePasswordFromOnepassword(configuration *onepass.Configuration, done 
 	}
 
 	response, err := client.SendHelloCommand()
-
 	if err != nil {
 		os.Exit(1)
+	}
+
+	response, err := client.ReadSocket()
+	for response != "welcome" {
+		response, err := client.ReadSocket()
 	}
 
 	response, err = client.SendShowPopupCommand()

@@ -118,6 +118,24 @@ func (client *OnePasswordClient) SendHelloCommand() (*Response, error) {
 	return response, nil
 }
 
+func (client *OnePasswordClient) ReadSocket() (*Response, error) {
+	var rawResponseStr string
+
+	err = client.websocketClient.Receive(&rawResponseStr)
+
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := LoadResponse(rawResponseStr)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
 func (client *OnePasswordClient) SendCommand(command *Command) (*Response, error) {
 	jsonStr, err := json.Marshal(command)
 
